@@ -1,6 +1,7 @@
 package es.wendyneo.backoffice.controller;
 
-import es.wendyneo.backoffice.model.Client;
+import es.wendyneo.backoffice.domain.ClientRequest;
+import es.wendyneo.backoffice.persistence.Client;
 import es.wendyneo.backoffice.repository.ClientRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,33 +35,37 @@ public class ClientsController {
     }
 
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
-    public Client getClient(@PathVariable Long id) {
+    public Client getClient(@PathVariable String id) {
         return clientRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-    @PostMapping(path = "/add", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity createClient(@RequestBody Client client) throws URISyntaxException {
-        Client savedClient = clientRepository.save(client);
+    @PostMapping(path = "/", consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Client> createClient(@RequestBody ClientRequest clientRequest) throws URISyntaxException {
+        Client savedClient = clientRepository.save(getNewClient(clientRequest));
         return ResponseEntity.created(new URI("/clients/" + savedClient.getId())).body(savedClient);
     }
 
     @PutMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity updateClient(@PathVariable Long id, @RequestBody Client client) {
+    public ResponseEntity<Client> updateClient(@PathVariable String id, @RequestBody ClientRequest clientRequest) {
         Client currentClient = clientRepository.findById(id).orElseThrow(RuntimeException::new);
-        currentClient.setName(client.getName());
-        currentClient.setPhone(client.getPhone());
-        currentClient.setPetName(client.getPetName());
-        currentClient.setPetType(client.getPetType());
-        currentClient.setAllergy(client.getAllergy());
-        currentClient.setNotes(client.getNotes());
-        currentClient = clientRepository.save(client);
+        currentClient.setName(clientRequest.name());
+        currentClient.setPhone(clientRequest.phone());
+        currentClient.setPetName(clientRequest.petName());
+        currentClient.setPetType(clientRequest.petType());
+        currentClient.setAllergy(clientRequest.allergy());
+        currentClient.setNotes(clientRequest.notes());
+        currentClient = clientRepository.save(currentClient);
 
         return ResponseEntity.ok(currentClient);
     }
 
     @DeleteMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity deleteClient(@PathVariable Long id) {
+    public ResponseEntity<Client> deleteClient(@PathVariable Long id) {
         clientRepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    private static Client getNewClient(ClientRequest clientRequest) {
+        return new Client(null, clientRequest.name(), clientRequest.phone(), clientRequest.petName(), clientRequest.petType(), clientRequest.allergy(), clientRequest.notes());
     }
 }

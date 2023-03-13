@@ -1,6 +1,6 @@
 package es.wendyneo.backoffice.repository;
 
-import es.wendyneo.backoffice.model.Client;
+import es.wendyneo.backoffice.persistence.Client;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

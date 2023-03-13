@@ -36,6 +36,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     public Collection getMappingBasePackages() {
-        return Collections.singleton("es.wendyneo.backoffice.model");
+        return Collections.singleton("es.wendyneo.backoffice.persistence");
     }
 }
