@@ -24,11 +24,11 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        petName: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        phone: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        notes: { value: null, matchMode: FilterMatchMode.CONTAINS }
+        global: {value: null, matchMode: FilterMatchMode.CONTAINS},
+        name: {value: null, matchMode: FilterMatchMode.CONTAINS},
+        petName: {value: null, matchMode: FilterMatchMode.CONTAINS},
+        phone: {value: null, matchMode: FilterMatchMode.CONTAINS},
+        notes: {value: null, matchMode: FilterMatchMode.CONTAINS}
     });
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function App() {
 
     const onGlobalFilterChange = (e: any) => {
         const value = e.target.value;
-        let _filters = { ...filters };
+        let _filters = {...filters};
 
         _filters['global'].value = value;
 
@@ -56,8 +56,8 @@ function App() {
         return (
             <div className="flex justify-content-end">
                 <span className="p-input-icon-left">
-                    <i className="pi pi-search" />
-                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Buscar todos" />
+                    <i className="pi pi-search"/>
+                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Buscar todos"/>
                 </span>
             </div>
         );
@@ -67,7 +67,7 @@ function App() {
 
     return (
         <div className="App">
-            <img src={logo} className="App-logo" alt="logo" />
+            <img src={logo} className="App-logo" alt="logo"/>
             <div className="App-intro">
                 <DataTable value={result} paginator rows={10} dataKey="id" filters={filters} filterDisplay="row"
                            loading={loading} globalFilterFields={['name', 'phone', 'petName', 'notes']} header={header}
@@ -77,7 +77,7 @@ function App() {
                     <Column field="petName" header="Nombre mascota" filter filterPlaceholder="Buscar por mascota" sortable/>
                     <Column field="petType" header="Tipo de mascota"/>
                     <Column field="allergy" header="Alergias"/>
-                    <Column field="notes" header="Notas" filter filterPlaceholder="Buscar por notas" />
+                    <Column field="notes" header="Notas" filter filterPlaceholder="Buscar por notas"/>
                 </DataTable>
             </div>
         </div>
